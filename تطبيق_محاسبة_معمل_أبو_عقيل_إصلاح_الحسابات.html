@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#343638">
+<title>معمل أبو عقيل | النظام المحاسبي</title>
+<style>
+:root{--ink:#303234;--gold:#c6a45b;--bg:#f5f5f2;--card:#fff;--muted:#747779;--line:#e5e3dc;--green:#2c7a55;--red:#b74444}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
+header{background:linear-gradient(120deg,#292b2d,#45484a);color:white;padding:20px 16px 16px;border-bottom:4px solid var(--gold)}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border:2px solid var(--gold);border-radius:12px;display:grid;place-items:center;color:var(--gold);font-size:25px;font-weight:bold}
+h1{font-size:20px;margin:0 0 5px}header p{margin:0;color:#e1d7bf;font-size:12px}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:16px;flex-wrap:wrap}.role{background:#fff;color:#333;border:0;border-radius:9px;padding:9px;font-family:inherit}
+main{max-width:1000px;margin:auto;padding:15px}.notice{background:#fff8e8;border:1px solid #ead8a9;border-radius:10px;padding:11px 13px;font-size:12px;line-height:1.8;margin-bottom:14px}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:15px}
+nav button,.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 5px;font-family:inherit;cursor:pointer;color:var(--ink)}
+nav button.active{background:var(--ink);color:white;border-color:var(--gold);box-shadow:inset 0 -3px var(--gold)}
+.panel{display:none}.panel.active{display:block}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px}.sectionhead h2{font-size:18px;margin:0}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric,.box{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px}
+.metric small{color:var(--muted);display:block;margin-bottom:9px}.metric strong{font-size:20px}.metric .hint{font-size:11px;color:var(--muted);margin-top:7px}
+.gold{color:#9b7629}.green{color:var(--green)}.red{color:var(--red)}
+form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0 16px}
+label{font-size:12px;color:#555;display:flex;flex-direction:column;gap:6px}
+input,select,textarea{width:100%;border:1px solid #d9d8d1;background:white;border-radius:8px;padding:11px;font-family:inherit;font-size:14px;min-width:0}
+.wide{grid-column:1/-1}.primary{background:var(--ink);color:#fff;border:1px solid var(--gold);border-radius:9px;padding:12px;font-family:inherit;cursor:pointer}
+.secondary{background:white;border:1px solid var(--line);border-radius:9px;padding:10px;font-family:inherit;cursor:pointer}
+.tablewrap{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:540px;font-size:12px}th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}th{background:#f0eee7;color:#555}
+.empty{text-align:center;color:var(--muted);padding:24px}.actions{display:flex;gap:8px;flex-wrap:wrap}.smallbtn{padding:5px 8px;border-radius:6px;border:1px solid var(--line);background:#fff;font-family:inherit;cursor:pointer}
+.footer{text-align:center;color:var(--muted);font-size:11px;padding:22px 8px}.locked{display:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;line-height:1.9}
+@media(min-width:700px){nav{grid-template-columns:repeat(7,1fr)}.cards{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:390px){nav button{font-size:11px;padding:10px 2px}.cards{gap:7px}.metric{padding:11px}.metric strong{font-size:17px}form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">أ</div><div><h1>معمل أبو عقيل</h1><p>النظام المحاسبي والإنتاجي · الريال اليمني</p></div></div>
+ <div class="toprow"><span style="font-size:12px;color:#eee">نسخة أولية تجريبية</span><select id="role" class="role" aria-label="تجربة الصلاحيات"><option value="manager">عرض المدير</option><option value="worker">عرض العامل</option></select></div>
+</header>
+<main>
+<div class="notice"><b>تنبيه:</b> تحفظ البيانات على هذا الجهاز والمتصفح فقط. نزّل نسخة احتياطية بانتظام من قسم «البيانات»؛ حذف بيانات المتصفح أو تغيير الجهاز قد يفقدك السجلات. لا توجد مزامنة تلقائية بين الأجهزة.</div>
+<nav id="nav">
+<button class="active" data-panel="home">الرئيسية</button><button data-panel="production">الإنتاج</button><button data-panel="clients" data-manager>العملاء</button><button data-panel="workers" data-manager>العمال</button><button data-panel="cash" data-manager>الصندوق</button><button data-panel="reports" data-manager>التقارير</button><button data-panel="settings">البيانات</button>
+</nav>
+<section id="home" class="panel active">
+ <div class="sectionhead"><h2>ملخص المعمل</h2><span id="today" style="font-size:12px;color:#777"></span></div>
+ <div class="cards">
+  <div class="metric"><small>إيرادات مسجلة</small><strong id="mIncome">0 ر.ي</strong><div class="hint">المقبوضات المسجلة</div></div>
+  <div class="metric"><small>مصروفات مسجلة</small><strong id="mExpense">0 ر.ي</strong><div class="hint">المدفوعات المسجلة</div></div>
+  <div class="metric"><small>صافي حركة الصندوق</small><strong id="mNet">0 ر.ي</strong><div class="hint">الإيرادات ناقص المصروفات</div></div>
+  <div class="metric"><small>قطع الإنتاج المسجلة</small><strong id="mPieces">0</strong><div class="hint">إجمالي القطع المدخلة</div></div>
+ </div>
+ <div class="box" style="margin-top:12px"><b>تذكير محاسبي</b><p style="font-size:13px;line-height:1.9;margin-bottom:0">صافي حركة الصندوق ليس بالضرورة صافي الربح. حساب الربح الدقيق يحتاج تكلفة الإنتاج والأجور والمصروفات المستحقة ومخزون المواد، وفق طريقة المعمل.</p></div>
+</section>
+<section id="production" class="panel">
+ <div class="sectionhead"><h2>تسجيل الإنتاج</h2></div>
+ <form id="productionForm">
+  <label>اسم العامل<input name="worker" required placeholder="اسم العامل"></label>
+  <label>العميل<input name="client" required placeholder="اسم العميل"></label>
+  <label>نوع العمل<select name="type"><option>جاهز كبير</option><option>جاهز ولادي</option><option>جاهز شبابي</option><option>زبون</option><option>بنطلون</option><option>يلق</option><option>شميز</option><option>جاكيت</option><option>كوت رجالي</option><option>قطعة أخرى</option></select></label>
+  <label>عدد القطع<input name="qty" type="number" min="1" step="1" required></label>
+  <label>تاريخ الإنجاز<input name="date" type="date" required></label>
+  <label>ملاحظات<input name="note" placeholder="اختياري"></label>
+  <button class="primary wide" type="submit">حفظ الإنتاج</button>
+ </form>
+ <div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>العامل</th><th>العميل</th><th>النوع</th><th>العدد</th><th>ملاحظات</th></tr></thead><tbody id="productionRows"></tbody></table></div>
+</section>
+<section id="clients" class="panel">
+ <div class="sectionhead"><h2>حسابات العملاء</h2></div>
+ <form id="clientForm">
+  <label>اسم العميل<input name="name" required></label><label>رقم الهاتف<input name="phone" inputmode="tel"></label>
+  <label>قيمة الطلب (ريال)<input name="order" type="number" min="0" value="0" required></label><label>المبلغ المقبوض (ريال)<input name="paid" type="number" min="0" value="0" required></label>
+  <button class="primary wide" type="submit">إضافة حساب عميل</button>
+ </form>
+ <div class="tablewrap"><table><thead><tr><th>العميل</th><th>الهاتف</th><th>قيمة الطلب</th><th>المقبوض</th><th>المتبقي</th><th>إجراء</th></tr></thead><tbody id="clientRows"></tbody></table></div>
+</section>
+<section id="workers" class="panel">
+ <div class="sectionhead"><h2>حسابات العمال</h2></div>
+ <form id="workerForm"><label>اسم العامل<input name="name" required></label><label>أجر القطعة (ريال)<input name="rate" type="number" min="0" required></label><button class="primary wide" type="submit">إضافة عامل</button></form>
+ <div class="tablewrap"><table><thead><tr><th>العامل</th><th>أجر القطعة</th><th>عدد القطع المسجلة</th><th>المستحقات</th><th>المدفوع للعامل</th><th>المتبقي</th><th>إجراء</th></tr></thead><tbody id="workerRows"></tbody></table></div>
+ <div class="box" style="margin-top:14px">
+  <h3 style="margin:0;font-size:15px">تسجيل صرفية العامل</h3>
+  <form id="workerPaymentForm">
+   <label>اسم العامل<select name="worker" id="paymentWorker" required><option value="">اختر العامل</option></select></label>
+   <label>نوع الصرفية<select name="kind"><option>دفعة من المستحقات</option><option>سلفة</option><option>مصروف للعامل</option></select></label>
+   <label>المبلغ (ريال يمني)<input name="amount" type="number" min="1" step="1" required></label>
+   <label>التاريخ<input name="date" type="date" required></label>
+   <label class="wide">البيان / ملاحظات<input name="note" placeholder="اختياري"></label>
+   <button class="primary wide" type="submit">حفظ صرفية العامل</button>
+  </form>
+  <div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>العامل</th><th>نوع الصرفية</th><th>البيان</th><th>المبلغ</th><th>إجراء</th></tr></thead><tbody id="workerPaymentRows"></tbody></table></div>
+ </div>
+ <p style="font-size:12px;color:#777;line-height:1.8">المستحقات التقديرية = عدد القطع المسجلة × أجر القطعة. تُخصم الدفعات والسلف من المتبقي. سجّل المصروفات الخاصة بالعامل في بندها لتوثيقها.</p>
+</section>
+<section id="cash" class="panel">
+ <div class="sectionhead"><h2>الصندوق: إيرادات ومصروفات</h2></div>
+ <div class="cards">
+  <div class="metric"><small>إجمالي المقبوضات</small><strong id="cashIncome">0 ر.ي</strong></div>
+  <div class="metric"><small>إجمالي المدفوعات</small><strong id="cashExpense">0 ر.ي</strong></div>
+  <div class="metric"><small>رصيد الصندوق الحالي</small><strong id="cashBalance">0 ر.ي</strong></div>
+ </div>
+ <form id="cashForm">
+  <label>نوع الحركة<select name="kind"><option value="income">إيراد / قبض</option><option value="expense">مصروف / دفع</option></select></label>
+  <label>المبلغ (ريال يمني)<input name="amount" type="number" min="1" required></label>
+  <label>التصنيف<select name="category"><option>دفعة عميل</option><option>رواتب وأجور</option><option>صيانة</option><option>إيجار وكهرباء</option><option>مواد ومستلزمات</option><option>نقل</option><option>أخرى</option></select></label>
+  <label>التاريخ<input name="date" type="date" required></label><label class="wide">البيان<input name="note" required placeholder="سبب الحركة أو اسم الطرف"></label>
+  <button class="primary wide" type="submit">حفظ الحركة المالية</button>
+ </form>
+ <div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>النوع</th><th>التصنيف</th><th>البيان</th><th>المبلغ</th><th>إجراء</th></tr></thead><tbody id="cashRows"></tbody></table></div>
+</section>
+<section id="reports" class="panel">
+ <div class="sectionhead"><h2>التقارير</h2><button class="secondary" id="printBtn">طباعة / حفظ PDF</button></div>
+ <div class="cards"><div class="metric"><small>إجمالي قيمة طلبات العملاء</small><strong id="rOrders">0 ر.ي</strong></div><div class="metric"><small>المتبقي على العملاء</small><strong id="rDebts">0 ر.ي</strong></div><div class="metric"><small>مستحقات العمال التقديرية</small><strong id="rWages">0 ر.ي</strong></div><div class="metric"><small>صافي حركة الصندوق</small><strong id="rNet">0 ر.ي</strong></div></div>
+ <p style="font-size:12px;line-height:1.8;color:#777">هذه مؤشرات أولية مبنية على البيانات المدخلة، وليست قائمة أرباح وخسائر مكتملة أو كشف حساب نهائي.</p>
+</section>
+<section id="settings" class="panel">
+ <div class="sectionhead"><h2>البيانات والنسخ الاحتياطي</h2></div>
+ <div class="box">
+ <p style="line-height:1.9;font-size:13px">يمكنك تنزيل نسخة احتياطية من البيانات المدخلة، أو استيراد نسخة سابقة على هذا الجهاز.</p>
+ <div class="actions"><button class="primary" id="exportBtn">تنزيل نسخة احتياطية</button><label class="secondary" style="display:inline-flex;cursor:pointer">استيراد نسخة JSON<input id="importFile" type="file" accept=".json,application/json" style="display:none"></label><button class="secondary" id="clearBtn">مسح بيانات التجربة</button></div>
+ </div>
+ <div class="box" style="margin-top:12px"><b>مراحل التطوير التالية</b><ol style="font-size:13px;line-height:2"><li>تم ربط صرفيات العمال بالمدفوعات في الصندوق وبالمتبقي من مستحقات العامل.</li><li>ربط الإنتاج بطلب العميل وسعر القطعة.</li><li>إضافة صلاحيات دخول فعلية لكل مستخدم.</li><li>بناء مزامنة آمنة بين هاتف المدير وهواتف العمال.</li></ol></div>
+</section>
+<div id="workerLock" class="locked">حساب العامل لا يعرض الحسابات المالية. يمكنك تسجيل الإنتاج من قسم <b>الإنتاج</b> ومراجعة السجلات المسموح بها فقط. هذه محاكاة للصلاحيات في النسخة التجريبية، وليست حماية دخول فعلية.</div>
+<div class="footer">معمل أبو عقيل · لبسك بصمتك</div>
+</main>
+<script>
+const KEY='abu_okail_accounting_v1';
+const today=()=>new Date().toISOString().slice(0,10);
+let db={production:[],clients:[],workers:[],cash:[],workerPayments:[]};
+try{db={...db,...JSON.parse(localStorage.getItem(KEY)||'{}')};if(!Array.isArray(db.workerPayments))db.workerPayments=[]}catch(e){}
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const money=n=>new Intl.NumberFormat('ar-YE',{maximumFractionDigits:0}).format(Number(n)||0)+' ر.ي';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function formObj(form){return Object.fromEntries(new FormData(form).entries())}
+function emptyRow(cols,msg='لا توجد بيانات بعد'){return `<tr><td colspan="${cols}" class="empty">${msg}</td></tr>`}
+function render(){
+ const income=db.cash.filter(x=>x.kind==='income').reduce((s,x)=>s+ +x.amount,0), expense=db.cash.filter(x=>x.kind==='expense').reduce((s,x)=>s+ +x.amount,0), pieces=db.production.reduce((s,x)=>s+ +x.qty,0);
+ $('#mIncome').textContent=money(income);$('#mExpense').textContent=money(expense);$('#mNet').textContent=money(income-expense);$('#cashIncome').textContent=money(income);$('#cashExpense').textContent=money(expense);$('#cashBalance').textContent=money(income-expense);$('#cashBalance').className=income-expense>=0?'green':'red';$('#mNet').className=income-expense>=0?'green':'red';$('#mPieces').textContent=pieces;
+ $('#productionRows').innerHTML=db.production.length?[...db.production].reverse().map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.worker)}</td><td>${esc(x.client)}</td><td>${esc(x.type)}</td><td>${esc(x.qty)}</td><td>${esc(x.note||'—')}</td></tr>`).join(''):emptyRow(6);
+ $('#clientRows').innerHTML=db.clients.length?db.clients.map((x,i)=>`<tr><td>${esc(x.name)}</td><td>${esc(x.phone||'—')}</td><td>${money(x.order)}</td><td>${money(x.paid)}</td><td class="${x.order-x.paid>0?'red':'green'}">${money(x.order-x.paid)}</td><td><button class="smallbtn" onclick="delItem('clients',${i})">حذف</button></td></tr>`).join(''):emptyRow(6);
+ $('#workerRows').innerHTML=db.workers.length?db.workers.map((x,i)=>{let q=db.production.filter(p=>p.worker===x.name).reduce((s,p)=>s+ +p.qty,0);let earned=q*(+x.rate||0);let paid=db.workerPayments.filter(p=>p.worker===x.name).reduce((s,p)=>s+(+p.amount||0),0);return `<tr><td>${esc(x.name)}</td><td>${money(x.rate)}</td><td>${q}</td><td>${money(earned)}</td><td>${money(paid)}</td><td class="${earned-paid>0?'red':'green'}">${money(earned-paid)}</td><td><button class="smallbtn" onclick="delItem('workers',${i})">حذف</button></td></tr>`}).join(''):emptyRow(7);
+ $('#paymentWorker').innerHTML='<option value="">اختر العامل</option>'+db.workers.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join('');
+ $('#workerPaymentRows').innerHTML=db.workerPayments.length?[...db.workerPayments].reverse().map((x,j)=>{let i=db.workerPayments.length-1-j;return `<tr><td>${esc(x.date)}</td><td>${esc(x.worker)}</td><td>${esc(x.kind)}</td><td>${esc(x.note||'—')}</td><td class="red">${money(x.amount)}</td><td><button class="smallbtn" onclick="delItem('workerPayments',${i})">حذف</button></td></tr>`}).join(''):emptyRow(6);
+ $('#cashRows').innerHTML=db.cash.length?[...db.cash].reverse().map((x,j)=>{let i=db.cash.length-1-j;return `<tr><td>${esc(x.date)}</td><td>${x.kind==='income'?'إيراد':'مصروف'}</td><td>${esc(x.category)}</td><td>${esc(x.note)}</td><td class="${x.kind==='income'?'green':'red'}">${money(x.amount)}</td><td><button class="smallbtn" onclick="delItem('cash',${i})">حذف</button></td></tr>`}).join(''):emptyRow(6);
+ const orders=db.clients.reduce((s,x)=>s+ +x.order,0), debts=db.clients.reduce((s,x)=>s+(+x.order-+x.paid),0), wages=db.workers.reduce((s,w)=>s+w.rate*db.production.filter(p=>p.worker===w.name).reduce((a,p)=>a+ +p.qty,0),0)-db.workerPayments.reduce((s,p)=>s+(+p.amount||0),0);
+ $('#rOrders').textContent=money(orders);$('#rDebts').textContent=money(debts);$('#rWages').textContent=money(wages);$('#rNet').textContent=money(income-expense);
+}
+window.delItem=(list,i)=>{if(!confirm('هل تريد حذف هذا السجل؟'))return;const item=db[list][i];if(list==='workerPayments'&&item?.linkId){db.cash=db.cash.filter(c=>c.linkId!==item.linkId)}if(list==='cash'&&item?.linkId){if(item.source==='workerPayment')db.workerPayments=db.workerPayments.filter(p=>p.linkId!==item.linkId);if(item.source==='clientPayment')db.clients=db.clients.filter(c=>c.linkId!==item.linkId)}if(list==='clients'&&item?.linkId){db.cash=db.cash.filter(c=>c.linkId!==item.linkId)}db[list].splice(i,1);save()};
+$$('nav button').forEach(b=>b.addEventListener('click',()=>{if($('#role').value==='worker'&&b.hasAttribute('data-manager'))return;$$('nav button').forEach(x=>x.classList.toggle('active',x===b));$$('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.panel));$('#workerLock').style.display='none'}));
+$('#role').addEventListener('change',()=>{let worker=$('#role').value==='worker';$$('[data-manager]').forEach(b=>b.style.display=worker?'none':'');if(worker){$$('nav button').forEach(b=>b.classList.remove('active'));$$('.panel').forEach(p=>p.classList.remove('active'));$('#production').classList.add('active');$$('nav button').find(b=>b.dataset.panel==='production').classList.add('active');$('#workerLock').style.display='block'}else{$('#workerLock').style.display='none';$$('nav button')[0].click()}});
+$('#productionForm [name="date"]').value=today();
+$('#productionForm').addEventListener('submit',e=>{e.preventDefault();let x=formObj(e.target);x.qty=+x.qty;db.production.push(x);save();e.target.reset();e.target.querySelector('[name="date"]').value=today()});
+$('#clientForm').addEventListener('submit',e=>{e.preventDefault();let x=formObj(e.target);x.order=+x.order;x.paid=+x.paid;if(x.paid>x.order){alert('المقبوض لا يمكن أن يكون أكبر من قيمة الطلب.');return}if(x.paid<0||x.order<0){alert('تأكد من أن المبالغ غير سالبة.');return}if(x.paid>0){x.linkId='cp-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);db.cash.push({kind:'income',amount:x.paid,category:'دفعة عميل',date:today(),note:'مقبوض من العميل: '+x.name,source:'clientPayment',linkId:x.linkId})}db.clients.push(x);save();e.target.reset()});
+$('#workerForm').addEventListener('submit',e=>{e.preventDefault();let x=formObj(e.target);x.rate=+x.rate;db.workers.push(x);save();e.target.reset()});
+$('#workerPaymentForm [name="date"]').value=today();
+$('#workerPaymentForm').addEventListener('submit',e=>{e.preventDefault();let x=formObj(e.target);x.amount=+x.amount;if(!x.worker){alert('اختر العامل أولاً');return}x.linkId='wp-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);db.workerPayments.push(x);db.cash.push({kind:'expense',amount:x.amount,category:'رواتب وأجور',date:x.date,note:'صرفية عامل: '+x.worker+' - '+x.kind+(x.note?' - '+x.note:''),source:'workerPayment',linkId:x.linkId});save();e.target.reset();e.target.querySelector('[name="date"]').value=today()});
+$('#cashForm [name="date"]').value=today();
+$('#cashForm').addEventListener('submit',e=>{e.preventDefault();let x=formObj(e.target);x.amount=+x.amount;db.cash.push(x);save();e.target.reset();e.target.querySelector('[name="date"]').value=today()});
+$('#today').textContent=new Date().toLocaleDateString('ar-YE',{year:'numeric',month:'long',day:'numeric'});
+$('#exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='نسخة-احتياطية-معمل-ابو-عقيل.json';a.click();URL.revokeObjectURL(a.href)};
+$('#importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!d.production||!d.clients||!d.workers||!d.cash)throw Error();db={production:[],clients:[],workers:[],cash:[],workerPayments:[],...d};if(!Array.isArray(db.workerPayments))db.workerPayments=[];save();alert('تم استيراد النسخة بنجاح')}catch(err){alert('الملف غير صالح أو لا يطابق صيغة النسخة الاحتياطية')}e.target.value=''};
+$('#clearBtn').onclick=()=>{if(confirm('سيتم حذف كل بيانات التجربة من هذا المتصفح. هل تريد المتابعة؟')){db={production:[],clients:[],workers:[],cash:[],workerPayments:[]};save()}};
+$('#printBtn').onclick=()=>window.print();
+render();
+</script>
+</body></html>
